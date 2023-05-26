@@ -3,7 +3,6 @@ const app = express();
 const port = 4002;
 const { products } = require('./data');
 
-
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
@@ -14,6 +13,7 @@ app.get("/users", (req, res) => {
 
 app.get("/users/:productId", (req, res) => {
   const { productId } = req.params;
+  console.log('route reached')
   const newProduct = products.find((product) => {
     return product.id === Number(productId);
   });
