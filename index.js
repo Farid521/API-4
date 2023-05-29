@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
-const port = 4002;
-const { products } = require('./data');
+const port = 8080;
+const { products } = require("./data");
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -13,7 +13,7 @@ app.get("/users", (req, res) => {
 
 app.get("/users/:productId", (req, res) => {
   const { productId } = req.params;
-  console.log('route reached')
+  console.log("route reached");
   const newProduct = products.find((product) => {
     return product.id === Number(productId);
   });
@@ -28,7 +28,7 @@ app.get("/users/singkat", (req, res) => {
     const { id, name, image } = product;
     return { id, name, image };
   });
-  console.log('hello')
+  console.log("hello");
   res.json(newItem);
 });
 
