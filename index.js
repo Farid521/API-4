@@ -2,16 +2,17 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
 const { products } = require("./data");
+const logger = require("./logger");
 
-app.get("/", (req, res) => {
+app.get("/", logger, (req, res) => {
   res.send("Hello World!");
 });
 
-app.get("/users", (req, res) => {
+app.get("/users", logger, (req, res) => {
   res.json(products);
 });
 
-app.get("/users/:productId", (req, res) => {
+app.get("/users/:productId", logger, (req, res) => {
   const { productId } = req.params;
   console.log("route reached");
   const newProduct = products.find((product) => {
@@ -23,12 +24,12 @@ app.get("/users/:productId", (req, res) => {
   res.json(newProduct);
 });
 
-app.get("/users/:productId/review/:reviewId", (req, res) => {
+app.get("/users/:productId/review/:reviewId", logger, (req, res) => {
   console.log(req.params);
   res.send("hello");
 });
 
-app.get("/api/v1/query", (req, res) => {
+app.get("/api/v1/query", logger, (req, res) => {
   const { search, limit } = req.query;
   let sortedProduct = [...products];
 
@@ -40,8 +41,8 @@ app.get("/api/v1/query", (req, res) => {
   if (limit) {
     sortedProduct = sortedProduct.slice(0, Number(limit));
   }
-  if(sortedProduct < 1) {
-    res.status(200).send('your product cannot be found')
+  if (sortedProduct < 1) {
+    res.status(200).send("your product cannot be found");
   }
   res.status(200).json(sortedProduct);
 });
