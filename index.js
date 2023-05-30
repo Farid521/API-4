@@ -4,15 +4,17 @@ const port = process.env.PORT || 3000;
 const { products } = require("./data");
 const logger = require("./logger");
 
-app.get("/", logger, (req, res) => {
+app.use(logger);
+
+app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.get("/users", logger, (req, res) => {
+app.get("/users", (req, res) => {
   res.json(products);
 });
 
-app.get("/users/:productId", logger, (req, res) => {
+app.get("/users/:productId", (req, res) => {
   const { productId } = req.params;
   console.log("route reached");
   const newProduct = products.find((product) => {
@@ -24,12 +26,12 @@ app.get("/users/:productId", logger, (req, res) => {
   res.json(newProduct);
 });
 
-app.get("/users/:productId/review/:reviewId", logger, (req, res) => {
+app.get("/users/:productId/review/:reviewId", (req, res) => {
   console.log(req.params);
   res.send("hello");
 });
 
-app.get("/api/v1/query", logger, (req, res) => {
+app.get("/api/v1/query", (req, res) => {
   const { search, limit } = req.query;
   let sortedProduct = [...products];
 
