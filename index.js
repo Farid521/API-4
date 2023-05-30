@@ -23,14 +23,37 @@ app.get("/users/:productId", (req, res) => {
   res.json(newProduct);
 });
 
-app.get("/users/singkat", (req, res) => {
-  const newItem = products.map((product) => {
-    const { id, name, image } = product;
-    return { id, name, image };
-  });
-  console.log("hello");
-  res.json(newItem);
+app.get("/users/:productId/review/:reviewId", (req, res) => {
+  console.log(req.params);
+  res.send("hello");
 });
+
+app.get("/api/v1/query", (req, res) => {
+  const { search, limit } = req.query;
+  let sortedProduct = [...products];
+
+  if (search) {
+    sortedProduct = sortedProduct.filter((product) => {
+      return product.name.startsWith(search);
+    });
+  }
+  if (limit) {
+    sortedProduct = sortedProduct.slice(0, Number(limit));
+  }
+  if(sortedProduct < 1) {
+    res.status(200).send('your product cannot be found')
+  }
+  res.status(200).json(sortedProduct);
+});
+
+// app.get("/users/singkat", (req, res) => {
+//   const newItem = products.map((product) => {
+//     const { id, name, image } = product;
+//     return { id, name, image };
+//   });
+//   console.log("hello");
+//   res.json(newItem);
+// });
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
